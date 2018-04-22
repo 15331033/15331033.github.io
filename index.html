@@ -92,16 +92,16 @@
         <h4 id="LeetCode-6-ZigZag-Conversion"><a href="#LeetCode-6-ZigZag-Conversion" class="headerlink" title="LeetCode 6.ZigZag Conversion"></a>LeetCode 6.ZigZag Conversion</h4><h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述:"></a>问题描述:</h5><p> The string “PAYPALISHIRING” is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)<br><img src="/2018/04/22/LeetCode_6_ZigZag_Conversion/1524403790918.png" alt="Alt text"></p>
 <p>And then read line by line: “PAHNAPLSIIGYIR”</p>
 <p>Write the code that will take a string and make this conversion given a number of rows:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string convert(string s, int numRows);</span><br></pre></td></tr></table></figure></p>
-<p>#####样例如下<br>Example 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;PAYPALISHIRING&quot;, numRows = 3</span><br><span class="line">Output: &quot;PAHNAPLSIIGYIR&quot;</span><br></pre></td></tr></table></figure></p>
+<h5 id="样例如下"><a href="#样例如下" class="headerlink" title="样例如下"></a>样例如下</h5><p>Example 1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;PAYPALISHIRING&quot;, numRows = 3</span><br><span class="line">Output: &quot;PAHNAPLSIIGYIR&quot;</span><br></pre></td></tr></table></figure></p>
 <p>Example 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;PAYPALISHIRING&quot;, numRows = 4</span><br><span class="line">Output: &quot;PINALSIGYAHRPI&quot;</span><br></pre></td></tr></table></figure></p>
 <p>Explanation:<br><img src="/2018/04/22/LeetCode_6_ZigZag_Conversion/1524403810448.png" alt="Alt text"></p>
-<p>#####解题思路:<br>弄一个numRows * s.length()的数组,便利s,按规律插入就行了</p>
-<p>#####代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string convert(string s, int numRows) &#123;</span><br><span class="line">        int len = s.length();</span><br><span class="line">        vector&lt;vector&lt;char&gt; &gt; ss(numRows,vector&lt;char&gt;(len, &apos;0&apos;));</span><br><span class="line">        int i, j;</span><br><span class="line">        if(len == 0) return &quot;&quot;;</span><br><span class="line">        if(numRows == 1) return s;</span><br><span class="line">        ss[0][0] = s[0];</span><br><span class="line">        int count = 0;</span><br><span class="line">        bool spe = false;</span><br><span class="line">        int x = 0;</span><br><span class="line">        int y = 0;</span><br><span class="line">        for(i = 1; i &lt; len; i++) &#123;</span><br><span class="line">            if(!spe) &#123;</span><br><span class="line">                x++;</span><br><span class="line">                ss[x][y] = s[i];</span><br><span class="line">                //cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt; &quot; &quot; &lt;&lt; ss[x][y] &lt;&lt; endl;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                x--, y++;</span><br><span class="line">                ss[x][y] = s[i];</span><br><span class="line">                //cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt;&quot; &quot; &lt;&lt; ss[x][y] &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">            count++;</span><br><span class="line">            if(count == numRows-1) &#123;</span><br><span class="line">                count = 0;</span><br><span class="line">                spe = !spe;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        string re;</span><br><span class="line">        for(i = 0; i &lt; numRows; i++) &#123;</span><br><span class="line">            for(j = 0; j &lt;= y; j++) &#123;</span><br><span class="line">                if(ss[i][j] != &apos;0&apos;) re.push_back(ss[i][j]); </span><br><span class="line">                //cout &lt;&lt; ss[i][j ] &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return re;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路:"></a>解题思路:</h5><p>弄一个numRows * s.length()的数组,便利s,按规律插入就行了</p>
+<h5 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下:"></a>代码如下:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    string convert(string s, int numRows) &#123;</span><br><span class="line">        int len = s.length();</span><br><span class="line">        vector&lt;vector&lt;char&gt; &gt; ss(numRows,vector&lt;char&gt;(len, &apos;0&apos;));</span><br><span class="line">        int i, j;</span><br><span class="line">        if(len == 0) return &quot;&quot;;</span><br><span class="line">        if(numRows == 1) return s;</span><br><span class="line">        ss[0][0] = s[0];</span><br><span class="line">        int count = 0;</span><br><span class="line">        bool spe = false;</span><br><span class="line">        int x = 0;</span><br><span class="line">        int y = 0;</span><br><span class="line">        for(i = 1; i &lt; len; i++) &#123;</span><br><span class="line">            if(!spe) &#123;</span><br><span class="line">                x++;</span><br><span class="line">                ss[x][y] = s[i];</span><br><span class="line">                //cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt; &quot; &quot; &lt;&lt; ss[x][y] &lt;&lt; endl;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                x--, y++;</span><br><span class="line">                ss[x][y] = s[i];</span><br><span class="line">                //cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt;&quot; &quot; &lt;&lt; ss[x][y] &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">            count++;</span><br><span class="line">            if(count == numRows-1) &#123;</span><br><span class="line">                count = 0;</span><br><span class="line">                spe = !spe;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        string re;</span><br><span class="line">        for(i = 0; i &lt; numRows; i++) &#123;</span><br><span class="line">            for(j = 0; j &lt;= y; j++) &#123;</span><br><span class="line">                if(ss[i][j] != &apos;0&apos;) re.push_back(ss[i][j]); </span><br><span class="line">                //cout &lt;&lt; ss[i][j ] &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return re;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/22/LeetCode_6_ZigZag_Conversion/" data-id="cjgav52e80000hoxrp291ct75" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/04/22/LeetCode_6_ZigZag_Conversion/" data-id="cjgav7w0w0000o4xrldiywxxo" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -150,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/22/hello-world/" data-id="cjgav52en0006hoxrdbaaaxod" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/04/22/hello-world/" data-id="cjgav7w1d0006o4xrvufawjy6" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -261,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/22/Lesson6_Homework/" data-id="cjgav52el0005hoxrqo5v4524" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/04/22/Lesson6_Homework/" data-id="cjgav7w1b0005o4xrxm5r2wp1" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -305,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/13/Lesson5_Homework/" data-id="cjgav52ek0004hoxrnr5i8aue" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/04/13/Lesson5_Homework/" data-id="cjgav7w190004o4xrstetuunj" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -424,7 +424,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/15/Lesson1_Homework/" data-id="cjgav52ee0001hoxrr2vb9y38" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/03/15/Lesson1_Homework/" data-id="cjgav7w130001o4xro9geh1ky" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -492,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/03/15/Lesson2_Homework/" data-id="cjgav52ei0003hoxrl324kdj6" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/03/15/Lesson2_Homework/" data-id="cjgav7w170003o4xr2z5e1k43" class="article-share-link">Teilen</a>
       
       
     </footer>
