@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>django作为项目后台的docker-compose部署 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="django作为项目后台的docker-compose部署准备Linux下安装docker12sudo apt-get install dockersudo apt-get install dock Linux下安装docker-compose12$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="django作为项目后台的docker-compose部署">
+<meta property="og:url" content="http://yoursite.com/2018/06/30/django作为项目后台的docker-compose部署/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="django作为项目后台的docker-compose部署准备Linux下安装docker12sudo apt-get install dockersudo apt-get install dock Linux下安装docker-compose12$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/do">
+<meta property="og:updated_time" content="2018-06-30T12:03:48.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="django作为项目后台的docker-compose部署">
+<meta name="twitter:description" content="django作为项目后台的docker-compose部署准备Linux下安装docker12sudo apt-get install dockersudo apt-get install dock Linux下安装docker-compose12$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/do">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/categories">categories</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-django作为项目后台的docker-compose部署" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/django作为项目后台的docker-compose部署/" class="article-date">
+  <time datetime="2018-06-30T10:07:40.000Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/experience/">experience</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      django作为项目后台的docker-compose部署
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="django作为项目后台的docker-compose部署"><a href="#django作为项目后台的docker-compose部署" class="headerlink" title="django作为项目后台的docker-compose部署"></a>django作为项目后台的docker-compose部署</h4><h5 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h5><p>Linux下安装docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker</span><br><span class="line">sudo apt-get install dock</span><br></pre></td></tr></table></figure></p>
+<p>Linux下安装docker-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">$ sudo chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></p>
+<h5 id="dockerfile编写"><a href="#dockerfile编写" class="headerlink" title="dockerfile编写"></a>dockerfile编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3  #python 版本</span><br><span class="line"> ENV PYTHONUNBUFFERED 1 #环境变量</span><br><span class="line"> RUN mkdir /code #创建文件夹code</span><br><span class="line"> WORKDIR /code #设置工作目录</span><br><span class="line"> ADD requirements.txt /code/ #requirements.txt为项目额外需要的依赖包,将其添加到code文件夹</span><br><span class="line"> RUN pip install -r requirements.txt #code文件夹下运行pip install安装依赖包</span><br><span class="line"> ADD . /code/ #将当前目录文件添加到code文件夹</span><br></pre></td></tr></table></figure>
+<h5 id="requirements-txt编写"><a href="#requirements-txt编写" class="headerlink" title="requirements.txt编写"></a>requirements.txt编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Django&gt;=2.0  #下载django对应版本</span><br><span class="line">djangorestframework</span><br><span class="line">dwebsocket</span><br><span class="line">Pillow #需要的依赖包,前面三个是我项目需要的包,实际编写应根据自己项目需要的,写不全也不要紧,docker-compose build的时候会提示缺少什么包的</span><br></pre></td></tr></table></figure>
+<h5 id="docker-compose-yml编写"><a href="#docker-compose-yml编写" class="headerlink" title="docker-compose.yml编写"></a>docker-compose.yml编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3&apos;  #版本</span><br><span class="line"></span><br><span class="line">services:  #各个服务</span><br><span class="line">  db:  #数据库服务名</span><br><span class="line">    image: postgres  #数据库镜像,根据需要可以选择sql,若是sqlite3则不用数据库镜像</span><br><span class="line">  web: #后端服务名</span><br><span class="line">    build: .  #docker-compose build时在当前目录build</span><br><span class="line">    command: python3 manage.py runserver 0.0.0.0:8000 #docker-compose up时执行的命令</span><br><span class="line">    volumes:</span><br><span class="line">      - .:/code #路径映射</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8000:8000&quot; #端口映射</span><br><span class="line">    depends_on:</span><br><span class="line">      - db #服务依赖</span><br></pre></td></tr></table></figure>
+<h5 id="Django默认数据库设置"><a href="#Django默认数据库设置" class="headerlink" title="Django默认数据库设置"></a>Django默认数据库设置</h5><p>修改settings.py中的数据库默认设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;postgres&apos;, #数据库</span><br><span class="line">        &apos;USER&apos;: &apos;postgres&apos;,</span><br><span class="line">        &apos;HOST&apos;: &apos;db&apos;, #主机名,即在docker-compose中的db服务</span><br><span class="line">        &apos;PORT&apos;: 5432, #服务器端口</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体可参考<br><a href="https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html" target="_blank" rel="noopener">https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html</a><br>最终你的django项目里应该有</p>
+<ul>
+<li>Dockerfile</li>
+<li>requirements.txt</li>
+<li>docker-compose.yml</li>
+</ul>
+<p>处于同一目录下</p>
+<h5 id="后台部署"><a href="#后台部署" class="headerlink" title="后台部署"></a>后台部署</h5><p>将项目文件夹拷贝到服务器上,进入项目文件夹,执行<br>sudo docker-compose up<br>即构建并启动项目<br>sudo docker-compose build<br>为构建项目<br>sudo docker-compose restart<br>为重启项目</p>
+<h5 id="紧张刺激的掉坑环节"><a href="#紧张刺激的掉坑环节" class="headerlink" title="紧张刺激的掉坑环节"></a>紧张刺激的掉坑环节</h5><p>sudo docker-compose up的时候可能会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Couldn&apos;t connect to Docker daemon at http+docker://localunixsocket - is it running?</span><br></pre></td></tr></table></figure></p>
+<p>这个报错应该是跟docker和docker-compose是否以管理员权限开启有关,遇到报错可以尝试<br>先关掉docker,管理员权限,非管理员权限和系统的docker<br>service docker stop<br>sudo service docker stop<br>systemctl stop docker<br>再以管理员权限重启或开启docker<br>sudo service docker start/restart<br>sudo systemctl start docker<br>sudo systemctl restart docker<br>最后<br>sudo docker-compose up<br>应该就可以了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/django作为项目后台的docker-compose部署/" data-id="cjj1czd38000dvjxry5gdmenp" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/30/关于django的csrftoken检验/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          关于django的csrftoken检验
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/27/Lesson16_Homework/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Lesson16_Homework</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/experience/">experience</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/helloworld/">helloworld</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日算法/">每日算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/系分作业/">系分作业</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/30/关于django的csrftoken检验/">关于django的csrftoken检验</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/30/django作为项目后台的docker-compose部署/">django作为项目后台的docker-compose部署</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/27/Lesson16_Homework/">Lesson16_Homework</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/02/Lesson13_Homework/">Lesson13_Homework</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/12/Lesson9_Homework/">Lesson9_Homework</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">categories</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
