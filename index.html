@@ -52,7 +52,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -63,111 +63,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-关于django的csrftoken检验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/30/关于django的csrftoken检验/" class="article-date">
-  <time datetime="2018-06-30T10:07:40.000Z" itemprop="datePublished">2018-06-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/experience/">experience</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/30/关于django的csrftoken检验/">关于django的csrftoken检验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="关于django的csrftoken检验"><a href="#关于django的csrftoken检验" class="headerlink" title="关于django的csrftoken检验"></a>关于django的csrftoken检验</h4><h5 id="CSRF介绍"><a href="#CSRF介绍" class="headerlink" title="CSRF介绍"></a>CSRF介绍</h5><p><a href="https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html</a></p>
-<h5 id="项目中的csrf坑"><a href="#项目中的csrf坑" class="headerlink" title="项目中的csrf坑"></a>项目中的csrf坑</h5><p>用django自带的用户系统登录后会在cookie生成一个sessionid保持用户登录状态,同时生成一个csrftoken防止csrf攻击<br>由于有这个csrftoken的机制,前端登录后,想调用后端api或者通过sessionid认证用户信息时,有时候就会报错<br>CSRF Token missing or incorrect</p>
-<h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><p>前端发送请求时在request添加头部<br>X-CSRFToken,值为cookie中的csrftoken<br>若后端csrftoken跳异常,可尝试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from django.template.context_processors import csrf</span><br><span class="line">csrf(request)</span><br></pre></td></tr></table></figure></p>
-<p>网上也有说法可以用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@csrf_exempt</span><br></pre></td></tr></table></figure></p>
-<p>修饰报错的函数,忽略csrf<br>或者在settings.py中注释掉<br>‘django.middleware.csrf.CsrfViewMiddleware’,</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/30/关于django的csrftoken检验/" data-id="cjj2m64ve000qsvxrky5iwjau" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-django作为项目后台的docker-compose部署" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/30/django作为项目后台的docker-compose部署/" class="article-date">
-  <time datetime="2018-06-30T10:07:40.000Z" itemprop="datePublished">2018-06-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/experience/">experience</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/30/django作为项目后台的docker-compose部署/">django作为项目后台的docker-compose部署</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="django作为项目后台的docker-compose部署"><a href="#django作为项目后台的docker-compose部署" class="headerlink" title="django作为项目后台的docker-compose部署"></a>django作为项目后台的docker-compose部署</h4><h5 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h5><p>Linux下安装docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker</span><br><span class="line">sudo apt-get install dock</span><br></pre></td></tr></table></figure></p>
-<p>Linux下安装docker-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">$ sudo chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></p>
-<h5 id="dockerfile编写"><a href="#dockerfile编写" class="headerlink" title="dockerfile编写"></a>dockerfile编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3  #python 版本</span><br><span class="line"> ENV PYTHONUNBUFFERED 1 #环境变量</span><br><span class="line"> RUN mkdir /code #创建文件夹code</span><br><span class="line"> WORKDIR /code #设置工作目录</span><br><span class="line"> ADD requirements.txt /code/ #requirements.txt为项目额外需要的依赖包,将其添加到code文件夹</span><br><span class="line"> RUN pip install -r requirements.txt #code文件夹下运行pip install安装依赖包</span><br><span class="line"> ADD . /code/ #将当前目录文件添加到code文件夹</span><br></pre></td></tr></table></figure>
-<h5 id="requirements-txt编写"><a href="#requirements-txt编写" class="headerlink" title="requirements.txt编写"></a>requirements.txt编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Django&gt;=2.0  #下载django对应版本</span><br><span class="line">djangorestframework</span><br><span class="line">dwebsocket</span><br><span class="line">Pillow #需要的依赖包,前面三个是我项目需要的包,实际编写应根据自己项目需要的,写不全也不要紧,docker-compose build的时候会提示缺少什么包的</span><br></pre></td></tr></table></figure>
-<h5 id="docker-compose-yml编写"><a href="#docker-compose-yml编写" class="headerlink" title="docker-compose.yml编写"></a>docker-compose.yml编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3&apos;  #版本</span><br><span class="line"></span><br><span class="line">services:  #各个服务</span><br><span class="line">  db:  #数据库服务名</span><br><span class="line">    image: postgres  #数据库镜像,根据需要可以选择sql,若是sqlite3则不用数据库镜像</span><br><span class="line">  web: #后端服务名</span><br><span class="line">    build: .  #docker-compose build时在当前目录build</span><br><span class="line">    command: python3 manage.py runserver 0.0.0.0:8000 #docker-compose up时执行的命令</span><br><span class="line">    volumes:</span><br><span class="line">      - .:/code #路径映射</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8000:8000&quot; #端口映射</span><br><span class="line">    depends_on:</span><br><span class="line">      - db #服务依赖</span><br></pre></td></tr></table></figure>
-<h5 id="Django默认数据库设置"><a href="#Django默认数据库设置" class="headerlink" title="Django默认数据库设置"></a>Django默认数据库设置</h5><p>修改settings.py中的数据库默认设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;postgres&apos;, #数据库</span><br><span class="line">        &apos;USER&apos;: &apos;postgres&apos;,</span><br><span class="line">        &apos;HOST&apos;: &apos;db&apos;, #主机名,即在docker-compose中的db服务</span><br><span class="line">        &apos;PORT&apos;: 5432, #服务器端口</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>具体可参考<br><a href="https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html" target="_blank" rel="noopener">https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html</a><br>最终你的django项目里应该有</p>
-<ul>
-<li>Dockerfile</li>
-<li>requirements.txt</li>
-<li>docker-compose.yml</li>
-</ul>
-<p>处于同一目录下</p>
-<h5 id="后台部署"><a href="#后台部署" class="headerlink" title="后台部署"></a>后台部署</h5><p>将项目文件夹拷贝到服务器上,进入项目文件夹,执行<br>sudo docker-compose up<br>即构建并启动项目<br>sudo docker-compose build<br>为构建项目<br>sudo docker-compose restart<br>为重启项目</p>
-<h5 id="紧张刺激的掉坑环节"><a href="#紧张刺激的掉坑环节" class="headerlink" title="紧张刺激的掉坑环节"></a>紧张刺激的掉坑环节</h5><p>sudo docker-compose up的时候可能会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Couldn&apos;t connect to Docker daemon at http+docker://localunixsocket - is it running?</span><br></pre></td></tr></table></figure></p>
-<p>这个报错应该是跟docker和docker-compose是否以管理员权限开启有关,遇到报错可以尝试<br>先关掉docker,管理员权限,非管理员权限和系统的docker<br>service docker stop<br>sudo service docker stop<br>systemctl stop docker<br>再以管理员权限重启或开启docker<br>sudo service docker start/restart<br>sudo systemctl start docker<br>sudo systemctl restart docker<br>最后<br>sudo docker-compose up<br>应该就可以了</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/30/django作为项目后台的docker-compose部署/" data-id="cjj2m64vc000lsvxrkrp102qw" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-Final Report" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/06/29/Final Report/" class="article-date">
-  <time datetime="2018-06-29T14:07:40.000Z" itemprop="datePublished">2018-06-29</time>
+    <a href="/2018/06/30/Final Report/" class="article-date">
+  <time datetime="2018-06-30T14:07:40.000Z" itemprop="datePublished">2018-06-30</time>
 </a>
     
   <div class="article-category">
@@ -182,7 +81,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/29/Final Report/">Final Report</a>
+      <a class="article-title" href="/2018/06/30/Final Report/">Final Report</a>
     </h1>
   
 
@@ -282,7 +181,7 @@
 </tr>
 </tbody>
 </table>
-<h5 id="个人分支的-GIT-统计报告（不需要解释原因）-仅需要提交截图"><a href="#个人分支的-GIT-统计报告（不需要解释原因）-仅需要提交截图" class="headerlink" title="个人分支的 GIT 统计报告（不需要解释原因）- 仅需要提交截图"></a>个人分支的 GIT 统计报告（不需要解释原因）- 仅需要提交截图</h5><p>dashboard<br><img src="/2018/06/29/Final Report/1530328477371.png" alt="Alt text"><br>backend<br><img src="/2018/06/29/Final Report/1530435856946.png" alt="Alt text"></p>
+<h5 id="个人分支的-GIT-统计报告（不需要解释原因）-仅需要提交截图"><a href="#个人分支的-GIT-统计报告（不需要解释原因）-仅需要提交截图" class="headerlink" title="个人分支的 GIT 统计报告（不需要解释原因）- 仅需要提交截图"></a>个人分支的 GIT 统计报告（不需要解释原因）- 仅需要提交截图</h5><p>dashboard<br><img src="/2018/06/30/Final Report/1530328477371.png" alt="Alt text"><br>backend<br><img src="/2018/06/30/Final Report/1530435856946.png" alt="Alt text"></p>
 <h5 id="自认为最得意-或有价值-或有苦劳的工作清单，含简短说明（一句话）"><a href="#自认为最得意-或有价值-或有苦劳的工作清单，含简短说明（一句话）" class="headerlink" title="自认为最得意/或有价值/或有苦劳的工作清单，含简短说明（一句话）"></a>自认为最得意/或有价值/或有苦劳的工作清单，含简短说明（一句话）</h5><ul>
 <li>用django自带用户系统登录并保持登录状态,模拟微信接口返回用户信息,方便后续衔接微信的开发</li>
 <li>跟前端对接解决csrf-token校验问题</li>
@@ -294,7 +193,108 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/29/Final Report/" data-id="cjj2m64uj0000svxrj7ia8bzb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/30/Final Report/" data-id="cjj2m79zn0000vaxrht2d7nuk" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-关于django的csrftoken检验" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/关于django的csrftoken检验/" class="article-date">
+  <time datetime="2018-06-30T10:07:40.000Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/experience/">experience</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/30/关于django的csrftoken检验/">关于django的csrftoken检验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="关于django的csrftoken检验"><a href="#关于django的csrftoken检验" class="headerlink" title="关于django的csrftoken检验"></a>关于django的csrftoken检验</h4><h5 id="CSRF介绍"><a href="#CSRF介绍" class="headerlink" title="CSRF介绍"></a>CSRF介绍</h5><p><a href="https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/index.html</a></p>
+<h5 id="项目中的csrf坑"><a href="#项目中的csrf坑" class="headerlink" title="项目中的csrf坑"></a>项目中的csrf坑</h5><p>用django自带的用户系统登录后会在cookie生成一个sessionid保持用户登录状态,同时生成一个csrftoken防止csrf攻击<br>由于有这个csrftoken的机制,前端登录后,想调用后端api或者通过sessionid认证用户信息时,有时候就会报错<br>CSRF Token missing or incorrect</p>
+<h5 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h5><p>前端发送请求时在request添加头部<br>X-CSRFToken,值为cookie中的csrftoken<br>若后端csrftoken跳异常,可尝试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from django.template.context_processors import csrf</span><br><span class="line">csrf(request)</span><br></pre></td></tr></table></figure></p>
+<p>网上也有说法可以用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@csrf_exempt</span><br></pre></td></tr></table></figure></p>
+<p>修饰报错的函数,忽略csrf<br>或者在settings.py中注释掉<br>‘django.middleware.csrf.CsrfViewMiddleware’,</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/关于django的csrftoken检验/" data-id="cjj2m7a0j000qvaxrup7hxr9v" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-django作为项目后台的docker-compose部署" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/30/django作为项目后台的docker-compose部署/" class="article-date">
+  <time datetime="2018-06-30T10:07:40.000Z" itemprop="datePublished">2018-06-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/experience/">experience</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/30/django作为项目后台的docker-compose部署/">django作为项目后台的docker-compose部署</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="django作为项目后台的docker-compose部署"><a href="#django作为项目后台的docker-compose部署" class="headerlink" title="django作为项目后台的docker-compose部署"></a>django作为项目后台的docker-compose部署</h4><h5 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h5><p>Linux下安装docker<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker</span><br><span class="line">sudo apt-get install dock</span><br></pre></td></tr></table></figure></p>
+<p>Linux下安装docker-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line">$ sudo chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></p>
+<h5 id="dockerfile编写"><a href="#dockerfile编写" class="headerlink" title="dockerfile编写"></a>dockerfile编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3  #python 版本</span><br><span class="line"> ENV PYTHONUNBUFFERED 1 #环境变量</span><br><span class="line"> RUN mkdir /code #创建文件夹code</span><br><span class="line"> WORKDIR /code #设置工作目录</span><br><span class="line"> ADD requirements.txt /code/ #requirements.txt为项目额外需要的依赖包,将其添加到code文件夹</span><br><span class="line"> RUN pip install -r requirements.txt #code文件夹下运行pip install安装依赖包</span><br><span class="line"> ADD . /code/ #将当前目录文件添加到code文件夹</span><br></pre></td></tr></table></figure>
+<h5 id="requirements-txt编写"><a href="#requirements-txt编写" class="headerlink" title="requirements.txt编写"></a>requirements.txt编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Django&gt;=2.0  #下载django对应版本</span><br><span class="line">djangorestframework</span><br><span class="line">dwebsocket</span><br><span class="line">Pillow #需要的依赖包,前面三个是我项目需要的包,实际编写应根据自己项目需要的,写不全也不要紧,docker-compose build的时候会提示缺少什么包的</span><br></pre></td></tr></table></figure>
+<h5 id="docker-compose-yml编写"><a href="#docker-compose-yml编写" class="headerlink" title="docker-compose.yml编写"></a>docker-compose.yml编写</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3&apos;  #版本</span><br><span class="line"></span><br><span class="line">services:  #各个服务</span><br><span class="line">  db:  #数据库服务名</span><br><span class="line">    image: postgres  #数据库镜像,根据需要可以选择sql,若是sqlite3则不用数据库镜像</span><br><span class="line">  web: #后端服务名</span><br><span class="line">    build: .  #docker-compose build时在当前目录build</span><br><span class="line">    command: python3 manage.py runserver 0.0.0.0:8000 #docker-compose up时执行的命令</span><br><span class="line">    volumes:</span><br><span class="line">      - .:/code #路径映射</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;8000:8000&quot; #端口映射</span><br><span class="line">    depends_on:</span><br><span class="line">      - db #服务依赖</span><br></pre></td></tr></table></figure>
+<h5 id="Django默认数据库设置"><a href="#Django默认数据库设置" class="headerlink" title="Django默认数据库设置"></a>Django默认数据库设置</h5><p>修改settings.py中的数据库默认设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &apos;default&apos;: &#123;</span><br><span class="line">        &apos;ENGINE&apos;: &apos;django.db.backends.postgresql&apos;,</span><br><span class="line">        &apos;NAME&apos;: &apos;postgres&apos;, #数据库</span><br><span class="line">        &apos;USER&apos;: &apos;postgres&apos;,</span><br><span class="line">        &apos;HOST&apos;: &apos;db&apos;, #主机名,即在docker-compose中的db服务</span><br><span class="line">        &apos;PORT&apos;: 5432, #服务器端口</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体可参考<br><a href="https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html" target="_blank" rel="noopener">https://shenxgan.gitbooks.io/django/content/publish/2015-07-13-django-mysql.html</a><br>最终你的django项目里应该有</p>
+<ul>
+<li>Dockerfile</li>
+<li>requirements.txt</li>
+<li>docker-compose.yml</li>
+</ul>
+<p>处于同一目录下</p>
+<h5 id="后台部署"><a href="#后台部署" class="headerlink" title="后台部署"></a>后台部署</h5><p>将项目文件夹拷贝到服务器上,进入项目文件夹,执行<br>sudo docker-compose up<br>即构建并启动项目<br>sudo docker-compose build<br>为构建项目<br>sudo docker-compose restart<br>为重启项目</p>
+<h5 id="紧张刺激的掉坑环节"><a href="#紧张刺激的掉坑环节" class="headerlink" title="紧张刺激的掉坑环节"></a>紧张刺激的掉坑环节</h5><p>sudo docker-compose up的时候可能会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Couldn&apos;t connect to Docker daemon at http+docker://localunixsocket - is it running?</span><br></pre></td></tr></table></figure></p>
+<p>这个报错应该是跟docker和docker-compose是否以管理员权限开启有关,遇到报错可以尝试<br>先关掉docker,管理员权限,非管理员权限和系统的docker<br>service docker stop<br>sudo service docker stop<br>systemctl stop docker<br>再以管理员权限重启或开启docker<br>sudo service docker start/restart<br>sudo systemctl start docker<br>sudo systemctl restart docker<br>最后<br>sudo docker-compose up<br>应该就可以了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/30/django作为项目后台的docker-compose部署/" data-id="cjj2m7a0g000lvaxrrfr3bszw" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -343,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/27/Lesson16_Homework/" data-id="cjj2m64ux0005svxrba4q6rpz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/27/Lesson16_Homework/" data-id="cjj2m7a020005vaxrx1936ql3" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -395,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/02/Lesson13_Homework/" data-id="cjj2m64uv0004svxridk3bvho" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/02/Lesson13_Homework/" data-id="cjj2m7a000004vaxrjxbd6py3" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -448,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/12/Lesson9_Homework/" data-id="cjj2m64vb000jsvxrih04qh9a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/12/Lesson9_Homework/" data-id="cjj2m7a0f000jvaxr1v9qrjdx" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -492,7 +492,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/03/Lesson8_Homework/" data-id="cjj2m64va000hsvxrqz76hzj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/03/Lesson8_Homework/" data-id="cjj2m7a0e000hvaxrh2aq8hld" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -549,7 +549,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/25/Lesson7_Homework/" data-id="cjj2m64v8000fsvxrlvaelf1e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/25/Lesson7_Homework/" data-id="cjj2m7a0d000fvaxrm9tsrngd" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -597,7 +597,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/23/LeetCode_8_String_to_Integer(atoi)/" data-id="cjj2m64us0003svxr3dwyy0ug" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/23/LeetCode_8_String_to_Integer(atoi)/" data-id="cjj2m79zy0003vaxrfunxrue0" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -645,7 +645,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/04/22/LeetCode_6_ZigZag_Conversion/" data-id="cjj2m64uo0001svxrlh7ql09f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/04/22/LeetCode_6_ZigZag_Conversion/" data-id="cjj2m79zt0001vaxr0cs4s9el" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -659,7 +659,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">weiter &raquo;</a>
   </nav>
 
 </section>
@@ -668,7 +668,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">Kategorien</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/experience/">experience</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/helloworld/">helloworld</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/每日算法/">每日算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/系分作业/">系分作业</a></li></ul>
     </div>
@@ -683,7 +683,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
     </div>
@@ -693,9 +693,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/06/30/Final Report/">Final Report</a>
+          </li>
         
           <li>
             <a href="/2018/06/30/关于django的csrftoken检验/">关于django的csrftoken检验</a>
@@ -703,10 +707,6 @@
         
           <li>
             <a href="/2018/06/30/django作为项目后台的docker-compose部署/">django作为项目后台的docker-compose部署</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/29/Final Report/">Final Report</a>
           </li>
         
           <li>
